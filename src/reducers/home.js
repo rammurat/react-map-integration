@@ -1,8 +1,9 @@
-import { ADDRESS_LIST, INITIAL_CONFIG, UPDATE_ADDRESS } from '../actions/constants.js';
+import { ADDRESS_LIST, INITIAL_CONFIG, UPDATE_ADDRESS, DELETE_ADDRESS, MARKERS } from '../actions/constants.js';
 import config from '../app-config.js'
 // initial address list state
 const initialState = {
-  products: [],
+  addressList: [],
+  markers: [],
   initialConfig: {}
 };
 
@@ -12,7 +13,13 @@ export default function (state = initialState, action) {
     case ADDRESS_LIST:
       return {
         ...state,
-        products: action.payload
+        addressList: action.payload
+      };
+
+    case MARKERS:
+      return {
+        ...state,
+        markers: action.payload
       };
 
     case INITIAL_CONFIG:
@@ -27,6 +34,11 @@ export default function (state = initialState, action) {
         selectedOrder: action.payload
       };
 
+    case DELETE_ADDRESS:
+      return {
+        ...state,
+        selectedOrder: action.payload
+      };
 
     default:
       return state;

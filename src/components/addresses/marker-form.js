@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { fetchAddress, addAddress } from '../../actions/home.js';
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+import CONFIG from '../../app-config.js'
 
 class MarkerForm extends Component {
   constructor(props) {
@@ -9,11 +9,42 @@ class MarkerForm extends Component {
   }
 
   onSubmit = (e) => {
+    e.preventDefault()
+
     this.props.addAddress()
   }
 
-  onChange = (e) => {
-    this.props.fetchAddress(e.target.value)
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps.map)
+      this.renderAutoComplete();
+  }
+
+  componentDidMount() {
+    this.renderAutoComplete()
+  }
+
+
+  renderAutoComplete() {
+    const { google, map } = this.props;
+
+    if (!google || !map) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(this.autocomplete);
+    autocomplete.bindTo('bounds', map);
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();
+
+      if (!place.geometry) return;
+
+      if (place.geometry.viewport) map.fitBounds(place.geometry.viewport);
+      else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(17);
+      }
+
+      this.setState({ position: place.geometry.location });
+    });
   }
 
   render() {
@@ -22,9 +53,13 @@ class MarkerForm extends Component {
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label htmlFor="address">Enter address:</label>
-            <input type="text" className="form-control" id="address" name="address" onChange={this.onChange} />
+            <input
+              placeholder="Enter a location"
+              ref={ref => (this.autocomplete = ref)}
+              type="text"
+            />
           </div>
-          <button type="button" className="btn btn-primary">Add Map</button>
+          <button type="submit" className="btn btn-primary">Add Map</button>
         </form>
       </div>
     );
@@ -32,16 +67,9 @@ class MarkerForm extends Component {
 }
 
 MarkerForm.propTypes = {
-  fetchAddress: PropTypes.func,
   addAddress: PropTypes.func
 };
 
-const mapDispatchToProps = {
-  fetchAddress,
-  addAddress
-}
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(MarkerForm);
+export default GoogleApiWrapper({
+  apiKey: CONFIG.MAP_API_KEY
+})(MarkerForm);

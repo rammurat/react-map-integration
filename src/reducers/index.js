@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import markerList from './home.js';
+import homeReducer from './home.js';
 
 export default combineReducers({
-  addressList: markerList
+  home: homeReducer
 });
