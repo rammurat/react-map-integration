@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import CONFIG from '../../app-config.js'
 
-class MarkerForm extends Component {
+class MarkerForm extends React.Component {
   constructor(props) {
     super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  onSubmit = (e) => {
+  handleSubmit(e) {
     e.preventDefault()
-
-    this.props.addAddress()
+    this.props.addAddress(e.target.value)
   }
 
   componentDidUpdate(prevProps) {
@@ -50,7 +50,7 @@ class MarkerForm extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="address">Enter address:</label>
             <input

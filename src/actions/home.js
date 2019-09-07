@@ -18,13 +18,27 @@ export const updateMarkers = (data) => dispatch => {
 
 // fetch latest addressList based on last filter action/default configuration
 export const fetchAddressList = () => dispatch => {
-  const data = [{ lat: 52.50697, lng: -13.2843066, postCode: 'Delhi', address: 'Delhi, India' },
-  { lat: 52.5156934, lng: -13.1735498, postCode: 'Delhi', address: 'Delhi, India' },
-  { lat: 48.1550039, lng: -11.4716246, postCode: 'Delhi', address: 'Delhi, India' },
-  { lat: 48.1678936, lng: -11.554276, postCode: 'Delhi', address: 'Delhi, India' }]
+  // data example 
+  // [{ lat: 52.50697, lng: -13.2843066, postCode: 'Delhi', address: 'Delhi, India' },
+  // { lat: 52.5156934, lng: -13.1735498, postCode: 'Delhi', address: 'Delhi, India' },
+  // { lat: 48.1550039, lng: -11.4716246, postCode: 'Delhi', address: 'Delhi, India' },
+  // { lat: 48.1678936, lng: -11.554276, postCode: 'Delhi', address: 'Delhi, India' }]
 
-  dispatch(updateList(data))
-  return data
+  return fetch('http://localhost:1234/list', {
+    method: 'GET'
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((res) => {
+      console.log(res)
+      dispatch(updateList(res.data))
+      return res
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+
 };
 
 // fetch latest addressList based on last filter action/default configuration
@@ -47,8 +61,25 @@ export const updateAddress = (type) => dispatch => {
 }
 
 // add new address
-export const addAddress = (address) => dispatch => {
-
+export const addAddress = (adrs) => dispatch => {
+  const address = { lat: 52.50697, lng: -13.2843066, postCode: 'Delhi', address: adrs }
+  fetch('http://localhost:1234/list', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(address)
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((e) => {
+      console.log(e)
+    })
 }
 
 // fetch address 
@@ -136,5 +167,17 @@ export const fetchAddress = () => dispatch => {
 
 // delete address
 export const deleteAddress = (type) => dispatch => {
-
+  return fetch('http://localhost:1234/list?id=5d742d45055de93275a7dd90', {
+    method: 'DELETE',
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((res) => {
+      console.log(res)
+      return res
+    })
+    .catch((e) => {
+      console.log(e)
+    })
 };

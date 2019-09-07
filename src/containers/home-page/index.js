@@ -22,7 +22,6 @@ class HomePage extends React.Component {
     }
     render() {
         const { addressList, markers } = this.props
-        debugger
         return (
             <div className="container">
                 <div className="row">
@@ -30,9 +29,8 @@ class HomePage extends React.Component {
                         <Map markers={markers} />
                     </div>
                     <div className="list-cnt col-sm-12 col-md-6 col-lg-6 offset-md-1 offset-lg-1">
-                        <MarkerForm addAddress={addAddress} />
+                        <MarkerForm addAddress={this.props.addAddress} />
 
-                        <h4>List</h4>
                         <List addressList={addressList} />
                     </div>
                 </div>

@@ -23,12 +23,12 @@ class List extends Component {
     const items = list.length && list.map(item => (
       <div className="list" key={Math.random()}>
         <div className="row">
-          <div className="col-sm-12 col-md-12 col-lg-12">
+          <div className="col-sm-12 col-md-6 col-lg-6">
             <div className="row">
-              <p>{item.address}</p>
-              <p>{item.postCode}</p>
-              <p>{item.lat}</p>
-              <p>{item.long}</p>
+              <p className="h4">{item.address}</p>
+              <p>Post Code: {item.postCode}</p>
+              <p>Latitude: {item.lat}</p>
+              <p>Longitude: {item.lng}</p>
             </div>
             <div className="row">
               <div className="p-2">
