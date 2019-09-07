@@ -167,14 +167,11 @@ export const fetchAddress = () => dispatch => {
 
 // delete address
 export const deleteAddress = (type) => dispatch => {
-  return fetch('http://localhost:1234/list?id=5d742d45055de93275a7dd90', {
+  return fetch('http://localhost:1234/list/5d743b75222efe3bbf3f38cc', {
     method: 'DELETE',
   })
-    .then((response) => {
-      return response.json();
-    })
     .then((res) => {
-      console.log(res)
+      console.log(res.status)
       return res
     })
     .catch((e) => {

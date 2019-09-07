@@ -20,7 +20,7 @@ class List extends Component {
     // count total number of properties
     const list = this.props.addressList || []
 
-    const items = list.length && list.map(item => (
+    const items = list.length ? list.map(item => (
       <div className="list" key={Math.random()}>
         <div className="row">
           <div className="col-sm-12 col-md-6 col-lg-6">
@@ -41,7 +41,7 @@ class List extends Component {
           </div>
         </div>
       </div>
-    ));
+    )) : false;
 
     return (
       <div>
