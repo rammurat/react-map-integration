@@ -14,6 +14,7 @@ class MarkerForm extends React.Component {
     e.preventDefault()
     const address = this.state.newAddress
     this.props.addAddress(address)
+
     // @ts-ignore
     document.getElementById("autocompleteForm").reset() // reset form after adding address
   }
@@ -29,8 +30,13 @@ class MarkerForm extends React.Component {
 
 
   renderAutoComplete() {
-    const { google, map } = this.props;
-    if (!google) return;
+    const { google } = this.props;
+
+    if (!google) {
+      //set error
+      this.props.updateMapError('Please check your google map configuration. You might forget to add valid key.')
+      return;
+    }
     const autocomplete = new google.maps.places.Autocomplete(this.autocomplete);
 
     autocomplete.addListener('place_changed', () => {
@@ -68,7 +74,8 @@ class MarkerForm extends React.Component {
 }
 
 MarkerForm.propTypes = {
-  addAddress: PropTypes.func
+  addAddress: PropTypes.func,
+  updateMapError: PropTypes.func
 };
 
 export default GoogleApiWrapper({

@@ -42,6 +42,10 @@ class List extends Component {
     return (
       <div className="list">
         <div className="row">
+          {this.props.dbError &&
+            <div className="alert alert-danger" role="alert">
+              {this.props.dbError}
+            </div>}
           {items}
         </div>
       </div>
@@ -52,7 +56,8 @@ class List extends Component {
 List.propTypes = {
   updateAddress: PropTypes.func,
   deleteAddress: PropTypes.func,
-  addressList: PropTypes.array
+  addressList: PropTypes.array,
+  dbError: PropTypes.string
 };
 
 const mapDispatchToProps = {

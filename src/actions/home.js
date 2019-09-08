@@ -1,5 +1,21 @@
-import { ADDRESS_LIST, MARKERS } from './constants.js';
+import { ADDRESS_LIST, MARKERS, DB_ERROR, MAP_ERROR } from './constants.js';
 import CONFIG from '../app-config'
+
+// update any db error
+export const updateDBError = (err) => dispatch => {
+  dispatch({
+    type: DB_ERROR,
+    payload: err
+  })
+};
+
+// update any google map error
+export const updateMapError = (err) => dispatch => {
+  dispatch({
+    type: MAP_ERROR,
+    payload: err
+  })
+};
 
 // update addressList on addition/deletion any record from system
 export const updateList = (data) => dispatch => {
@@ -43,6 +59,7 @@ export const fetchAddressList = () => dispatch => {
       return res
     })
     .catch((e) => {
+      dispatch(updateDBError(e.message))
       console.log(e)
     })
 
@@ -67,12 +84,16 @@ export const fetchMarkers = () => dispatch => {
     })
     .catch((e) => {
       console.log(e)
+      dispatch(updateDBError(e.message))
     })
 
 };
 
 // add new address
 export const addAddress = (address) => dispatch => {
+  // clear any previous error
+  dispatch(updateDBError(''))
+
   fetch(CONFIG.API_URL, {
     method: 'POST',
     headers: {
@@ -85,40 +106,60 @@ export const addAddress = (address) => dispatch => {
       return response.json();
     })
     .then((res) => {
+      if (res.status === 200) {
+        console.log('Add new address complete.')
+      } else {
+        dispatch(updateDBError(res.error))
+      }
       dispatch(fetchAddressList())
-      console.log('Add new address complete.')
     })
     .catch((e) => {
       console.log(e)
+      dispatch(updateDBError(e.message))
     })
 }
 
 // update address
 export const updateAddress = (id) => dispatch => {
+  // clear any previous error
+  dispatch(updateDBError(''))
+
   return fetch(`${CONFIG.API_URL}/${id}`, {
     method: 'PUT',
   })
     .then((res) => {
-      console.log('Existing record updated.')
+      if (res.status === 200) {
+        console.log('Existing record updated.')
+      } else {
+        dispatch(updateDBError(res.error))
+      }
       dispatch(fetchAddressList())
-      return res
     })
     .catch((e) => {
       console.log(e)
+      dispatch(updateDBError(e.message))
     })
 }
 
 // delete address
 export const deleteAddress = (id) => dispatch => {
+  // clear any previous error
+  dispatch(updateDBError(''))
+
   return fetch(`${CONFIG.API_URL}/${id}`, {
     method: 'DELETE',
   })
     .then((res) => {
-      console.log('Existing record deleted.')
+      if (res.status === 200) {
+        console.log('Existing record deleted.')
+      } else {
+        dispatch(updateDBError(res.error))
+      }
       dispatch(fetchAddressList())
-      return res
+
     })
     .catch((e) => {
       console.log(e)
+      dispatch(updateDBError(e.message))
     })
 };

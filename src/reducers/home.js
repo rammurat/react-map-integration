@@ -1,10 +1,12 @@
-import { ADDRESS_LIST, INITIAL_CONFIG, UPDATE_ADDRESS, DELETE_ADDRESS, MARKERS } from '../actions/constants.js';
+import { ADDRESS_LIST, INITIAL_CONFIG, UPDATE_ADDRESS, DELETE_ADDRESS, MARKERS, MAP_ERROR, DB_ERROR } from '../actions/constants.js';
 
 // initial address list state
 const initialState = {
   addressList: [],
   markers: [],
-  initialConfig: {}
+  initialConfig: {},
+  dbError: '',
+  mapError: ''
 };
 
 export default function (state = initialState, action) {
@@ -38,6 +40,18 @@ export default function (state = initialState, action) {
       return {
         ...state,
         selectedOrder: action.payload
+      };
+
+    case MAP_ERROR:
+      return {
+        ...state,
+        mapError: action.payload
+      };
+
+    case DB_ERROR:
+      return {
+        ...state,
+        dbError: action.payload
       };
 
     default:
