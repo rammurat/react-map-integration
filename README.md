@@ -1,4 +1,4 @@
-# react-map-integration
+# Express API consume in React with Google map
 
 ## Overview
 A quick POC with Webpack, React  and Redux configuration for client side rendering.
