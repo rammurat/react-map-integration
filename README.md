@@ -1,4 +1,4 @@
-# react-redux-webpack
+# react-map-integration
 
 ## Overview
 A quick POC with Webpack, React  and Redux configuration for client side rendering.
