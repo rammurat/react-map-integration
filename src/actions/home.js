@@ -9,7 +9,14 @@ export const updateList = (data) => dispatch => {
 };
 
 // reset home data on filter change and initial load
-export const updateMarkers = (data) => dispatch => {
+export const updateMarkers = (res) => dispatch => {
+  const data = res.map((item) => {
+    return {
+      lat: item.lat,
+      lng: item.lng
+    }
+  })
+
   dispatch({
     type: MARKERS,
     payload: data
@@ -43,13 +50,27 @@ export const fetchAddressList = () => dispatch => {
 
 // fetch latest addressList based on last filter action/default configuration
 export const fetchMarkers = () => dispatch => {
-  const data = [{ lat: 52.50697, lng: -13.2843066 },
-  { lat: 52.5156934, lng: -13.1735498 },
-  { lat: 48.1550039, lng: -11.4716246 },
-  { lat: 48.1678936, lng: -11.554276 }]
+  // Markers example
+  // [{ lat: 52.50697, lng: -13.2843066 },
+  // { lat: 52.5156934, lng: -13.1735498 },
+  // { lat: 48.1550039, lng: -11.4716246 },
+  // { lat: 48.1678936, lng: -11.554276 }]
 
-  dispatch(updateMarkers(data))
-  return data
+  return fetch('http://localhost:1234/list', {
+    method: 'GET'
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((res) => {
+      console.log(res)
+      dispatch(updateMarkers(res.data))
+      return res
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+
 };
 
 // update address
@@ -75,6 +96,7 @@ export const addAddress = (adrs) => dispatch => {
       return response.json();
     })
     .then((res) => {
+      dispatch(fetchAddressList())
       console.log(res)
     })
     .catch((e) => {
@@ -166,12 +188,13 @@ export const fetchAddress = () => dispatch => {
 }
 
 // delete address
-export const deleteAddress = (type) => dispatch => {
-  return fetch('http://localhost:1234/list/5d743b75222efe3bbf3f38cc', {
+export const deleteAddress = (id) => dispatch => {
+  return fetch(`http://localhost:1234/list/${id}`, {
     method: 'DELETE',
   })
     .then((res) => {
       console.log(res.status)
+      dispatch(fetchAddressList())
       return res
     })
     .catch((e) => {

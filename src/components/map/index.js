@@ -14,11 +14,15 @@ class MapMarkers extends Component {
     }
 
     displayMarkers = () => {
-        const markers = this.props.markers || []
-        return markers.lenght && markers.map((store, index) => {
+
+        const m = [{ lat: 52.520008, lng: 13.404954 },
+        { lat: 50.110880, lng: 8.679490 }]
+
+        const markers = m || []
+        return markers.length && markers.map((store, index) => {
             return <Marker key={index} id={index} position={{
-                lat: store.latitude,
-                lng: store.longitude
+                lat: store.lat,
+                lng: store.lng
             }}
                 onClick={() => console.log("You clicked me!")} />
         })
@@ -29,10 +33,10 @@ class MapMarkers extends Component {
             <div className="map-container">
                 <Map
                     google={this.props.google}
-                    zoom={8}
+                    zoom={3}
                     style={mapStyles}
                     id="map"
-                    initialCenter={{ lat: 47.444, lng: -122.176 }}
+                    initialCenter={{ lat: 52.520008, lng: 13.404954 }}
                 >
                     {this.displayMarkers()}
                 </Map>

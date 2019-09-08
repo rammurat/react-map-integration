@@ -8,12 +8,12 @@ class List extends Component {
     super(props);
   }
 
-  onUpdateAddress = (e) => {
-    this.props.updateAddress()
+  onUpdateAddress = (id) => {
+    this.props.updateAddress(id)
   }
 
-  onDeleteAddress = (e) => {
-    this.props.deleteAddress()
+  onDeleteAddress = (id) => {
+    this.props.deleteAddress(id)
   }
 
   render() {
@@ -32,10 +32,10 @@ class List extends Component {
             </div>
             <div className="row">
               <div className="p-2">
-                <button type="button" className="p-2 btn btn-primary" onClick={this.onUpdateAddress}>Edit</button>
+                <button type="button" className="p-2 btn btn-primary" onClick={() => { this.onUpdateAddress(item._id) }}>Edit</button>
               </div>
               <div className="p-2">
-                <button type="button" className="p-2 btn btn-primary" onClick={this.onDeleteAddress}>Delete</button>
+                <button type="button" className="p-2 btn btn-primary" onClick={() => { this.onDeleteAddress(item._id) }}>Delete</button>
               </div>
             </div>
           </div>

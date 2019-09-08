@@ -57,6 +57,7 @@ class MarkerForm extends React.Component {
               placeholder="Enter a location"
               ref={ref => (this.autocomplete = ref)}
               type="text"
+              value={this.props.addressToUpdate}
             />
           </div>
           <button type="submit" className="btn btn-primary">Add Map</button>
