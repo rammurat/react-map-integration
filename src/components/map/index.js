@@ -14,11 +14,7 @@ class MapMarkers extends Component {
     }
 
     displayMarkers = () => {
-
-        const m = [{ lat: 52.520008, lng: 13.404954 },
-        { lat: 50.110880, lng: 8.679490 }]
-
-        const markers = m || []
+        const markers = this.props.markers || []
         return markers.length && markers.map((store, index) => {
             return <Marker key={index} id={index} position={{
                 lat: store.lat,

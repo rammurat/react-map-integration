@@ -26,10 +26,8 @@ export const updateMarkers = (res) => dispatch => {
 // fetch latest addressList based on last filter action/default configuration
 export const fetchAddressList = () => dispatch => {
   // data example 
-  // [{ lat: 52.50697, lng: -13.2843066, postCode: 'Delhi', address: 'Delhi, India' },
-  // { lat: 52.5156934, lng: -13.1735498, postCode: 'Delhi', address: 'Delhi, India' },
-  // { lat: 48.1550039, lng: -11.4716246, postCode: 'Delhi', address: 'Delhi, India' },
-  // { lat: 48.1678936, lng: -11.554276, postCode: 'Delhi', address: 'Delhi, India' }]
+  // [{ lat: 52.50697, lng: -13.2843066, address: 'Berlin, Germany' },
+  // { lat: 48.1678936, lng: -11.554276, address: 'Berlin, Germany' }]
 
   return fetch('http://localhost:1234/list', {
     method: 'GET'
@@ -40,6 +38,7 @@ export const fetchAddressList = () => dispatch => {
     .then((res) => {
       console.log(res)
       dispatch(updateList(res.data))
+      dispatch(updateMarkers(res.data))
       return res
     })
     .catch((e) => {
@@ -52,9 +51,7 @@ export const fetchAddressList = () => dispatch => {
 export const fetchMarkers = () => dispatch => {
   // Markers example
   // [{ lat: 52.50697, lng: -13.2843066 },
-  // { lat: 52.5156934, lng: -13.1735498 },
-  // { lat: 48.1550039, lng: -11.4716246 },
-  // { lat: 48.1678936, lng: -11.554276 }]
+  // { lat: 52.5156934, lng: -13.1735498 }]
 
   return fetch('http://localhost:1234/list', {
     method: 'GET'
@@ -73,17 +70,8 @@ export const fetchMarkers = () => dispatch => {
 
 };
 
-// update address
-export const updateAddress = (type) => dispatch => {
-  // dispatch({
-  //   type: UPDATE_ADDRESS,
-  //   payload: type
-  // })
-}
-
 // add new address
-export const addAddress = (adrs) => dispatch => {
-  const address = { lat: 52.50697, lng: -13.2843066, postCode: 'Delhi', address: adrs }
+export const addAddress = (address) => dispatch => {
   fetch('http://localhost:1234/list', {
     method: 'POST',
     headers: {
@@ -104,87 +92,19 @@ export const addAddress = (adrs) => dispatch => {
     })
 }
 
-// fetch address 
-export const fetchAddress = () => dispatch => {
-  // const response = {
-  //   'results': [
-  //     {
-  //       'address_components': [
-  //         {
-  //           'lng_name': '277',
-  //           'short_name': '277',
-  //           'types': ['street_number']
-  //         },
-  //         {
-  //           'lng_name': 'Bedford Avenue',
-  //           'short_name': 'Bedford Ave',
-  //           'types': ['route']
-  //         },
-  //         {
-  //           'lng_name': 'Williamsburg',
-  //           'short_name': 'Williamsburg',
-  //           'types': ['neighborhood', 'political']
-  //         },
-  //         {
-  //           'lng_name': 'Brooklyn',
-  //           'short_name': 'Brooklyn',
-  //           'types': ['sublocality', 'political']
-  //         },
-  //         {
-  //           'lng_name': 'Kings',
-  //           'short_name': 'Kings',
-  //           'types': ['administrative_area_level_2', 'political']
-  //         },
-  //         {
-  //           'lng_name': 'New York',
-  //           'short_name': 'NY',
-  //           'types': ['administrative_area_level_1', 'political']
-  //         },
-  //         {
-  //           'lng_name': 'United States',
-  //           'short_name': 'US',
-  //           'types': ['country', 'political']
-  //         },
-  //         {
-  //           'lng_name': '11211',
-  //           'short_name': '11211',
-  //           'types': ['postal_code']
-  //         }
-  //       ],
-  //       'formatted_address': '277 Bedford Avenue, Brooklyn, NY 11211, USA',
-  //       'geometry': {
-  //         'location': {
-  //           'lat': 40.714232,
-  //           'lng': -73.9612889
-  //         },
-  //         'location_type': 'ROOFTOP',
-  //         'viewport': {
-  //           'northeast': {
-  //             'lat': 40.7155809802915,
-  //             'lng': -73.9599399197085
-  //           },
-  //           'southwest': {
-  //             'lat': 40.7128830197085,
-  //             'lng': -73.96263788029151
-  //           }
-  //         }
-  //       },
-  //       'place_id': 'ChIJd8BlQ2BZwokRAFUEcm_qrcA',
-  //       'types': ['street_address']
-  //     },
-  //   ],
-  //   'status': 'OK'
-  // }
-
-  // const newData = {
-  //   postCode: response.results[7].address_components['postal_code'],
-  //   lat: response.results[0].geometry.location.lat,
-  //   lng: response.results[0].geometry.location.lng
-  // }
-  // // add new address to db
-  // dispatch(addAddress(newData))
-
-  // return fetchAddressList()
+// update address
+export const updateAddress = (id) => dispatch => {
+  return fetch(`http://localhost:1234/list/${id}`, {
+    method: 'PUT',
+  })
+    .then((res) => {
+      console.log(res.status)
+      dispatch(fetchAddressList())
+      return res
+    })
+    .catch((e) => {
+      console.log(e)
+    })
 }
 
 // delete address

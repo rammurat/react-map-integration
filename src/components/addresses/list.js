@@ -17,36 +17,33 @@ class List extends Component {
   }
 
   render() {
-    // count total number of properties
+    // count total number of addresses
     const list = this.props.addressList || []
 
     const items = list.length ? list.map(item => (
-      <div className="list" key={Math.random()}>
+      <div className="col-sm-12 col-md-6 col-lg-6" key={Math.random()}>
         <div className="row">
-          <div className="col-sm-12 col-md-6 col-lg-6">
-            <div className="row">
-              <p className="h4">{item.address}</p>
-              <p>Post Code: {item.postCode}</p>
-              <p>Latitude: {item.lat}</p>
-              <p>Longitude: {item.lng}</p>
-            </div>
-            <div className="row">
-              <div className="p-2">
-                <button type="button" className="p-2 btn btn-primary" onClick={() => { this.onUpdateAddress(item._id) }}>Edit</button>
-              </div>
-              <div className="p-2">
-                <button type="button" className="p-2 btn btn-primary" onClick={() => { this.onDeleteAddress(item._id) }}>Delete</button>
-              </div>
-            </div>
+          <p className="h4">{item.address}</p>
+          <p>Address: {item.address}</p>
+          <p>Latitude: {item.lat}</p>
+          <p>Longitude: {item.lng}</p>
+        </div>
+        <div className="row">
+          <div className="p-2">
+            <button type="button" className="p-2 btn btn-primary" onClick={() => { this.onUpdateAddress(item._id) }}>Edit</button>
+          </div>
+          <div className="p-2">
+            <button type="button" className="p-2 btn btn-primary" onClick={() => { this.onDeleteAddress(item._id) }}>Delete</button>
           </div>
         </div>
       </div>
     )) : false;
 
     return (
-      <div>
-        {/** Load home items */}
-        {items}
+      <div className="list">
+        <div className="row">
+          {items}
+        </div>
       </div>
     );
   }

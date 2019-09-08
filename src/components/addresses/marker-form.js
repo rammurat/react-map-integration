@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+import { GoogleApiWrapper } from 'google-maps-react';
 import CONFIG from '../../app-config.js'
 
 class MarkerForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = { newAddress: {} }
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    this.props.addAddress(e.target.value)
+    const address = this.state.newAddress
+    this.props.addAddress(address)
+    // @ts-ignore
+    document.getElementById("autocompleteForm").reset()
   }
 
   componentDidUpdate(prevProps) {
@@ -26,38 +30,34 @@ class MarkerForm extends React.Component {
 
   renderAutoComplete() {
     const { google, map } = this.props;
-
-    if (!google || !map) return;
-
+    if (!google) return;
     const autocomplete = new google.maps.places.Autocomplete(this.autocomplete);
-    autocomplete.bindTo('bounds', map);
 
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
-
       if (!place.geometry) return;
 
-      if (place.geometry.viewport) map.fitBounds(place.geometry.viewport);
-      else {
-        map.setCenter(place.geometry.location);
-        map.setZoom(17);
-      }
-
-      this.setState({ position: place.geometry.location });
+      this.setState({
+        newAddress: {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+          address: place.formatted_address
+        }
+      })
     });
   }
 
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} id="autocompleteForm">
           <div className="form-group">
             <label htmlFor="address">Enter address:</label>
             <input
               placeholder="Enter a location"
               ref={ref => (this.autocomplete = ref)}
               type="text"
-              value={this.props.addressToUpdate}
+              required
             />
           </div>
           <button type="submit" className="btn btn-primary">Add Map</button>
