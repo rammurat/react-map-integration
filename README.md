@@ -1,4 +1,4 @@
-# react-redux-webpack
+# Express API consume in React with Google maps and CRUD operations
 
 ## Overview
 A quick POC with Webpack, React  and Redux configuration for client side rendering.
