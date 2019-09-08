@@ -36,7 +36,7 @@ export const fetchAddressList = () => dispatch => {
       return response.json();
     })
     .then((res) => {
-      console.log(res)
+      console.log('Fetch all records.')
       dispatch(updateList(res.data))
       dispatch(updateMarkers(res.data))
       return res
@@ -60,7 +60,7 @@ export const fetchMarkers = () => dispatch => {
       return response.json();
     })
     .then((res) => {
-      console.log(res)
+      console.log('Fetch all markers.')
       dispatch(updateMarkers(res.data))
       return res
     })
@@ -85,7 +85,7 @@ export const addAddress = (address) => dispatch => {
     })
     .then((res) => {
       dispatch(fetchAddressList())
-      console.log(res)
+      console.log('Add new address complete.')
     })
     .catch((e) => {
       console.log(e)
@@ -98,7 +98,7 @@ export const updateAddress = (id) => dispatch => {
     method: 'PUT',
   })
     .then((res) => {
-      console.log(res.status)
+      console.log('Existing record updated.')
       dispatch(fetchAddressList())
       return res
     })
@@ -113,7 +113,7 @@ export const deleteAddress = (id) => dispatch => {
     method: 'DELETE',
   })
     .then((res) => {
-      console.log(res.status)
+      console.log('Existing record deleted.')
       dispatch(fetchAddressList())
       return res
     })
