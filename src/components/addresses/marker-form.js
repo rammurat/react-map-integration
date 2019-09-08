@@ -15,7 +15,7 @@ class MarkerForm extends React.Component {
     const address = this.state.newAddress
     this.props.addAddress(address)
     // @ts-ignore
-    document.getElementById("autocompleteForm").reset()
+    document.getElementById("autocompleteForm").reset() // reset form after adding address
   }
 
   componentDidUpdate(prevProps) {

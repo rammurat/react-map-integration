@@ -1,6 +1,7 @@
-import { ADDRESS_LIST, UPDATE_ADDRESS, MARKERS } from './constants.js';
+import { ADDRESS_LIST, MARKERS } from './constants.js';
+import CONFIG from '../app-config'
 
-// reset home data on filter change and initial load
+// update addressList on addition/deletion any record from system
 export const updateList = (data) => dispatch => {
   dispatch({
     type: ADDRESS_LIST,
@@ -8,7 +9,7 @@ export const updateList = (data) => dispatch => {
   })
 };
 
-// reset home data on filter change and initial load
+// update markers on addition/deletion any record from system
 export const updateMarkers = (res) => dispatch => {
   const data = res.map((item) => {
     return {
@@ -23,13 +24,13 @@ export const updateMarkers = (res) => dispatch => {
   })
 };
 
-// fetch latest addressList based on last filter action/default configuration
+// fetch latest addressList 
 export const fetchAddressList = () => dispatch => {
   // data example 
   // [{ lat: 52.50697, lng: -13.2843066, address: 'Berlin, Germany' },
   // { lat: 48.1678936, lng: -11.554276, address: 'Berlin, Germany' }]
 
-  return fetch('http://localhost:1234/list', {
+  return fetch(CONFIG.API_URL, {
     method: 'GET'
   })
     .then((response) => {
@@ -47,13 +48,13 @@ export const fetchAddressList = () => dispatch => {
 
 };
 
-// fetch latest addressList based on last filter action/default configuration
+// fetch latest markers 
 export const fetchMarkers = () => dispatch => {
   // Markers example
   // [{ lat: 52.50697, lng: -13.2843066 },
   // { lat: 52.5156934, lng: -13.1735498 }]
 
-  return fetch('http://localhost:1234/list', {
+  return fetch(CONFIG.API_URL, {
     method: 'GET'
   })
     .then((response) => {
@@ -72,7 +73,7 @@ export const fetchMarkers = () => dispatch => {
 
 // add new address
 export const addAddress = (address) => dispatch => {
-  fetch('http://localhost:1234/list', {
+  fetch(CONFIG.API_URL, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -94,7 +95,7 @@ export const addAddress = (address) => dispatch => {
 
 // update address
 export const updateAddress = (id) => dispatch => {
-  return fetch(`http://localhost:1234/list/${id}`, {
+  return fetch(`${CONFIG.API_URL}/${id}`, {
     method: 'PUT',
   })
     .then((res) => {
@@ -109,7 +110,7 @@ export const updateAddress = (id) => dispatch => {
 
 // delete address
 export const deleteAddress = (id) => dispatch => {
-  return fetch(`http://localhost:1234/list/${id}`, {
+  return fetch(`${CONFIG.API_URL}/${id}`, {
     method: 'DELETE',
   })
     .then((res) => {

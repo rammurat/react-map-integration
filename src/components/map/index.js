@@ -14,6 +14,7 @@ class MapMarkers extends Component {
     }
 
     displayMarkers = () => {
+        // load markers on demand
         const markers = this.props.markers || []
         return markers.length && markers.map((store, index) => {
             return <Marker key={index} id={index} position={{

@@ -1,5 +1,5 @@
 import { ADDRESS_LIST, INITIAL_CONFIG, UPDATE_ADDRESS, DELETE_ADDRESS, MARKERS } from '../actions/constants.js';
-import config from '../app-config.js'
+
 // initial address list state
 const initialState = {
   addressList: [],
